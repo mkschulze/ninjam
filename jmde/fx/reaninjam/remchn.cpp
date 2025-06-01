@@ -150,6 +150,7 @@ static WDL_DLGRET RemoteChannelItemProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
     // !WANT_LOCALIZE_STRINGS_BEGIN:reaninjam_access
     { IDC_CHANNELNAME, "Remote channel name" },
     { IDC_REMOTEOUT, "Remote channel output" },
+    { IDC_RECV, "Remove channel receive" },
     // !WANT_LOCALIZE_STRINGS_END
   };
   switch (uMsg)
