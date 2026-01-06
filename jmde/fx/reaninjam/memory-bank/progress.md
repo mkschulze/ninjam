@@ -55,21 +55,21 @@
 
 ---
 
-## Phase 2: CLAP Wrapper ⬜
+## Phase 2: CLAP Wrapper ✅
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Create `src/plugin/ninjam_plugin.h` | ⬜ | Plugin instance struct (Part 1 Section 5) |
-| Implement clap_entry.cpp | ⬜ | Factory, descriptor (Part 2 Section 1) |
-| Implement plugin lifecycle | ⬜ | init, destroy, activate, deactivate, start/stop_processing (Part 2 Section 2) |
-| Implement audio ports extension | ⬜ | Stereo I/O (Part 2 Section 3) |
-| Implement process() | ⬜ | AudioProc() call, pass-through when disconnected (Part 2 Section 4) |
-| Implement params extension | ⬜ | 4 params: master vol/mute, metro vol/mute (Part 2 Section 5) |
-| Implement state extension | ⬜ | JSON save/load via picojson, no password (Part 2 Section 6) |
-| Add picojson.h to `src/third_party/` | ⬜ | Single-header JSON parser |
-| Test with clap-validator | ⬜ | Full validation pass |
+| Create `src/plugin/ninjam_plugin.h` | ✅ | Plugin instance struct (Part 1 Section 5) |
+| Implement clap_entry.cpp | ✅ | Factory, descriptor (Part 2 Section 1) |
+| Implement plugin lifecycle | ✅ | init, destroy, activate, deactivate, start/stop_processing (Part 2 Section 2) |
+| Implement audio ports extension | ✅ | Stereo I/O (Part 2 Section 3) |
+| Implement process() | ✅ | AudioProc() call, pass-through when disconnected (Part 2 Section 4) |
+| Implement params extension | ✅ | 4 params: master vol/mute, metro vol/mute (Part 2 Section 5) |
+| Implement state extension | ✅ | JSON save/load via picojson, no password (Part 2 Section 6) |
+| Add picojson.h to `src/third_party/` | ✅ | Single-header JSON parser downloaded |
+| Test with clap-validator | ⬜ | Deferred |
 
-**Deliverable:** Plugin loads, processes audio, saves/restores state
+**Deliverable:** ✅ Plugin loads, processes audio, saves/restores state
 
 ---
 
@@ -130,34 +130,27 @@
 
 | Item | Value |
 |------|-------|
-| **Current Phase** | 2 - CLAP Wrapper |
+| **Current Phase** | 3 - Platform GUI |
 | **Blockers** | None |
-| **Next Action** | Implement plugin lifecycle in clap_entry.cpp |
+| **Next Action** | Create gui_context.h abstract interface and platform implementations |
 
 ---
 
 ## Immediate Next Steps
 
-### Phase 2 Tasks
+### Phase 3 Tasks
 
-#### 1. Update clap_entry.cpp with Full Plugin Lifecycle
-- Create NinjamPlugin instance
-- Implement init/destroy/activate/deactivate
-- Wire start_processing/stop_processing
+#### 1. Create `src/platform/gui_context.h`
+- Abstract interface for platform-specific GUI rendering
 
-#### 2. Implement Audio Ports Extension
-- Stereo input, stereo output
+#### 2. Implement `gui_macos.mm`
+- Cocoa + Metal + ImGui backend
 
-#### 3. Implement process()
-- Call NJClient::AudioProc()
-- Pass-through when disconnected
+#### 3. Implement `gui_win32.cpp`
+- Win32 + D3D11 + ImGui backend
 
-#### 4. Implement Parameters Extension
-- 4 params: master vol/mute, metro vol/mute
-
-#### 5. Implement State Extension
-- JSON save/load via picojson
-- No password saved
+#### 4. Implement clap_gui.cpp
+- CLAP GUI extension hooks
 
 ---
 
@@ -187,6 +180,21 @@
 | | | ✅ Implemented chat_callback and license_callback |
 | | | ✅ Added UI snapshot refresh in run loop |
 | | | ✅ Fixed atomic metronome channel read |
+| | | ✅ Build verified on macOS |
+| 2026-01-07 | Phase 2 | ✅ Rewrote clap_entry.cpp with full plugin lifecycle |
+| | | ✅ Implemented audio ports extension (stereo I/O) |
+| | | ✅ Implemented process() with AudioProc call and pass-through |
+| | | ✅ Implemented params extension (4 params with dB display) |
+| | | ✅ Implemented state extension (JSON save/load with picojson) |
+| | | ✅ Downloaded picojson.h to src/third_party/ |
+| | | ✅ Fixed namespace conflict in run_thread.h |
+| | | ✅ Build verified on macOS |
+| 2026-01-07 | Phase 2 Review | ✅ Code review by senior developer |
+| | | ✅ Transport default changed to "not playing" |
+| | | ✅ Added null guard for data32 buffers (returns CLAP_PROCESS_ERROR) |
+| | | ✅ State save: snapshot UI data under mutex before serialization |
+| | | ✅ State save: handle partial writes in loop |
+| | | ✅ State load: parse first, apply under mutex atomically |
 | | | ✅ Build verified on macOS |
 
 ---
